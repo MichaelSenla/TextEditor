@@ -6,13 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/createFileButton"
+        style="@style/ButtonsStyle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/activity_main_create_file_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settingsButton" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/settingsButton"
+        style="@style/ButtonsStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_main_settings_label"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/viewFileButton"
+        style="@style/ButtonsStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_main_check_file_label"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settingsButton" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/editButton"
+        style="@style/ButtonsStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_main_edit_file_label"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewFileButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
