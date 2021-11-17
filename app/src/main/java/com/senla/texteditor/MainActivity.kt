@@ -12,6 +12,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val SHARED_PREFERENCES = "SHARED_PREFERENCES"
+        const val EXTRA_VIEW_FILE = "EXTRA_VIEW_FILE"
+        const val EXTRA_EDIT_FILE = "EXTRA_EDIT_FILE"
+        const val EXTRA_CREATE_FILE = "EXTRA_CREATE_FILE"
         lateinit var sharedPreferences: SharedPreferences
     }
 
@@ -24,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
         setButtonsListeners()
-        if (sharedPreferences.getBoolean(CreatingFileActivity.FILE_IS_CREATED_KEY, false)) {
+        if (sharedPreferences.getBoolean(FileActivity.FILE_IS_CREATED_KEY, false)) {
             changeToFileCreatedButtons()
         } else {
             changeToFileNotCreatedButtons()
@@ -33,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (sharedPreferences.getBoolean(CreatingFileActivity.FILE_IS_CREATED_KEY, false)) {
+        if (sharedPreferences.getBoolean(FileActivity.FILE_IS_CREATED_KEY, false)) {
             changeToFileCreatedButtons()
         } else {
             changeToFileNotCreatedButtons()
@@ -54,16 +57,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun setButtonsListeners() {
         binding.createFileButton.setOnClickListener {
-            startActivity(Intent(applicationContext, CreatingFileActivity::class.java))
+            startActivity(Intent(applicationContext, FileActivity::class.java).also {
+                it.putExtra(EXTRA_CREATE_FILE, EXTRA_CREATE_FILE)
+            })
         }
         binding.settingsButton.setOnClickListener {
             startActivity(Intent(applicationContext, SettingsActivity::class.java))
         }
         binding.viewFileButton.setOnClickListener {
-            startActivity(Intent(applicationContext, ViewFileActivity::class.java))
+            startActivity(Intent(applicationContext, FileActivity::class.java).also {
+                it.putExtra(EXTRA_VIEW_FILE, EXTRA_VIEW_FILE)
+            })
         }
         binding.editButton.setOnClickListener {
-            startActivity(Intent(applicationContext, EditFileActivity::class.java))
+            startActivity(Intent(applicationContext, FileActivity::class.java).also {
+                it.putExtra(EXTRA_EDIT_FILE, EXTRA_EDIT_FILE)
+            })
         }
     }
 }

@@ -8,5 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
-        android:focusableInTouchMode="true" />
+        android:focusableInTouchMode="true"
+        android:gravity="top|start" />
+
+    <TextView
+        android:id="@+id/viewInput"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_medium" />
 </FrameLayout>

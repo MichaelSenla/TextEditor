@@ -11,9 +11,9 @@ class SettingsActivity : Activity() {
     companion object {
         const val TEXT_SIZE = "TEXT_SIZE"
         const val TEXT_COLOR = "TEXT_COLOR"
-        private const val TEXT_SIZE_SMALL = 14
-        private const val TEXT_SIZE_MEDIUM = 14
-        private const val TEXT_SIZE_BIG = 14
+        const val TEXT_SIZE_SMALL = 14
+        const val TEXT_SIZE_MEDIUM = 20
+        const val TEXT_SIZE_BIG = 32
     }
 
     private lateinit var binding: ActivitySettingsBinding
