@@ -7,22 +7,25 @@
     tools:context=".SettingsActivity">
 
     <TextView
+        android:id="@+id/chooseTextSizeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_small"
         android:text="@string/activity_settings_choose_text_size_label"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size_small"
-        app:layout_constraintBottom_toTopOf="@id/textSizeButtons"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="@dimen/text_size_little"
+        app:layout_constraintBottom_toTopOf="@id/textSizeRadioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <RadioGroup
-        android:id="@+id/textSizeButtons"
+        android:id="@+id/textSizeRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/chooseTextSizeLabel">
 
         <RadioButton
             android:id="@+id/radioButtonTextSizeSmall"
@@ -44,23 +47,26 @@
     </RadioGroup>
 
     <TextView
+        android:id="@+id/chooseTextColorLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_small"
         android:text="@string/activity_settings_choose_text_color_label"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size_small"
-        app:layout_constraintBottom_toTopOf="@id/textColorButtons"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textSize="@dimen/text_size_little"
+        app:layout_constraintBottom_toTopOf="@id/textColorRadioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <RadioGroup
-        android:id="@+id/textColorButtons"
+        android:id="@+id/textColorRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/chooseTextColorLabel">
 
         <RadioButton
             android:id="@+id/radioButtonTextColorGreen"

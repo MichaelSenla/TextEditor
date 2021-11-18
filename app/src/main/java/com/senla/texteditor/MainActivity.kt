@@ -4,22 +4,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.senla.texteditor.databinding.ActivityMainBinding
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
         const val SHARED_PREFERENCES = "SHARED_PREFERENCES"
-        const val EXTRA_VIEW_FILE = "EXTRA_VIEW_FILE"
         const val EXTRA_EDIT_FILE = "EXTRA_EDIT_FILE"
         const val EXTRA_CREATE_FILE = "EXTRA_CREATE_FILE"
-        lateinit var sharedPreferences: SharedPreferences
     }
 
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -27,51 +26,52 @@ class MainActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
         setButtonsListeners()
-        if (sharedPreferences.getBoolean(FileActivity.FILE_IS_CREATED_KEY, false)) {
-            changeToFileCreatedButtons()
+        if (File("data.txt").exists()) {
+            configureButtonsVisibility(flag = true)
         } else {
-            changeToFileNotCreatedButtons()
+            configureButtonsVisibility(flag = false)
         }
     }
 
     override fun onResume() {
         super.onResume()
+
         if (sharedPreferences.getBoolean(FileActivity.FILE_IS_CREATED_KEY, false)) {
-            changeToFileCreatedButtons()
+            configureButtonsVisibility(flag = true)
         } else {
-            changeToFileNotCreatedButtons()
+            configureButtonsVisibility(flag = false)
         }
     }
 
-    private fun changeToFileCreatedButtons() {
-        binding.createFileButton.visibility = View.GONE
-        binding.viewFileButton.visibility = View.VISIBLE
-        binding.editButton.visibility = View.VISIBLE
-    }
-
-    private fun changeToFileNotCreatedButtons() {
-        binding.createFileButton.visibility = View.VISIBLE
-        binding.viewFileButton.visibility = View.GONE
-        binding.editButton.visibility = View.GONE
+    private fun configureButtonsVisibility(flag: Boolean) {
+        if (flag) {
+            binding.createFileButton.isVisible = false
+            binding.viewFileButton.isVisible = true
+            binding.editFileButton.isVisible = true
+        } else {
+            binding.createFileButton.isVisible = true
+            binding.viewFileButton.isVisible = false
+            binding.editFileButton.isVisible = false
+        }
     }
 
     private fun setButtonsListeners() {
         binding.createFileButton.setOnClickListener {
-            startActivity(Intent(applicationContext, FileActivity::class.java).also {
-                it.putExtra(EXTRA_CREATE_FILE, EXTRA_CREATE_FILE)
+            startActivity(Intent(this, FileActivity::class.java).also {
+                it.putExtra(EXTRA_CREATE_FILE, true)
             })
         }
         binding.settingsButton.setOnClickListener {
-            startActivity(Intent(applicationContext, SettingsActivity::class.java))
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
         binding.viewFileButton.setOnClickListener {
-            startActivity(Intent(applicationContext, FileActivity::class.java).also {
-                it.putExtra(EXTRA_VIEW_FILE, EXTRA_VIEW_FILE)
+            startActivity(Intent(this, FileActivity::class.java).also {
+                it.putExtra(EXTRA_EDIT_FILE, false)
             })
         }
-        binding.editButton.setOnClickListener {
-            startActivity(Intent(applicationContext, FileActivity::class.java).also {
-                it.putExtra(EXTRA_EDIT_FILE, EXTRA_EDIT_FILE)
+        binding.editFileButton.setOnClickListener {
+            startActivity(Intent(this, FileActivity::class.java).also {
+                it.putExtra(EXTRA_EDIT_FILE, true)
             })
         }
     }

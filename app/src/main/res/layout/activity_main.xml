@@ -7,26 +7,29 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/createFileButton"
-        style="@style/ButtonsStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/activity_main_create_file_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settingsButton" />
-
-    <com.google.android.material.button.MaterialButton
         android:id="@+id/settingsButton"
         style="@style/ButtonsStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/activity_main_settings_label"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/createFileButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/createFileButton"
+        style="@style/ButtonsStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_main_create_file_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settingsButton" />
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/viewFileButton"
@@ -40,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@id/settingsButton" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/editButton"
+        android:id="@+id/editFileButton"
         style="@style/ButtonsStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -49,5 +52,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewFileButton" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

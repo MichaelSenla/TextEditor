@@ -6,12 +6,12 @@
     <string name="activity_main_check_file_label">Просмотреть файл</string>
     <string name="activity_main_edit_file_label">Редактировать файл</string>
 
-    <string name="activity_settings_small_text_size_label">Small</string>
-    <string name="activity_settings_medium_text_size_label">Medium</string>
-    <string name="activity_settings_big_text_size_label">Big</string>
-    <string name="activity_settings_green_text_color_label">Green</string>
-    <string name="activity_settings_black_text_color_label">Black</string>
-    <string name="activity_settings_red_text_color_label">Red</string>
-    <string name="activity_settings_choose_text_size_label">Choose text size, please:</string>
-    <string name="activity_settings_choose_text_color_label">Choose text color, please:</string>
+    <string name="activity_settings_small_text_size_label">Маленький</string>
+    <string name="activity_settings_medium_text_size_label">Средний</string>
+    <string name="activity_settings_big_text_size_label">Большой</string>
+    <string name="activity_settings_green_text_color_label">Зеленый</string>
+    <string name="activity_settings_black_text_color_label">Черный</string>
+    <string name="activity_settings_red_text_color_label">Красный</string>
+    <string name="activity_settings_choose_text_size_label">Выберите размер текста, пожалуйста:</string>
+    <string name="activity_settings_choose_text_color_label">Выберите цвет текста, пожалуйста:</string>
 </resources>

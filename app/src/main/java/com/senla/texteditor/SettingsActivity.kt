@@ -1,9 +1,9 @@
 package com.senla.texteditor
 
 import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.core.content.ContextCompat
-import com.senla.texteditor.MainActivity.Companion.sharedPreferences
 import com.senla.texteditor.databinding.ActivitySettingsBinding
 
 class SettingsActivity : Activity() {
@@ -11,64 +11,82 @@ class SettingsActivity : Activity() {
     companion object {
         const val TEXT_SIZE = "TEXT_SIZE"
         const val TEXT_COLOR = "TEXT_COLOR"
-        const val TEXT_SIZE_SMALL = 14
-        const val TEXT_SIZE_MEDIUM = 20
-        const val TEXT_SIZE_BIG = 32
     }
 
     private lateinit var binding: ActivitySettingsBinding
-    private var textSize = 0
-    private var textColor = 0
-
+    private lateinit var sharedPreferences: SharedPreferences
+    private var textSize = ""
+    private var textColor = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setRadioButtonsListeners()
+        setRadioGroupsListeners()
+        sharedPreferences =
+            getSharedPreferences(MainActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        setDefaultSettings()
+        restoreSettings()
     }
 
-    private fun setRadioButtonsListeners() {
-        binding.textSizeButtons.setOnCheckedChangeListener { _, checkedId ->
+    private fun setDefaultSettings() {
+        binding.radioButtonTextSizeMedium.isChecked = true
+        binding.radioButtonTextColorBlack.isChecked = true
+    }
+
+    private fun restoreSettings() {
+        when (sharedPreferences.getString(TEXT_SIZE, "")) {
+            TextSize.SMALL.name -> binding.radioButtonTextSizeSmall.isChecked = true
+            TextSize.MEDIUM.name -> binding.radioButtonTextSizeMedium.isChecked = true
+            TextSize.BIG.name -> binding.radioButtonTextSizeBig.isChecked = true
+        }
+        when (sharedPreferences.getString(TEXT_COLOR, "")) {
+            TextColor.GREEN.name -> binding.radioButtonTextColorGreen.isChecked = true
+            TextColor.BLACK.name -> binding.radioButtonTextColorBlack.isChecked = true
+            TextColor.RED.name -> binding.radioButtonTextColorRed.isChecked = true
+        }
+    }
+
+    private fun setRadioGroupsListeners() {
+        binding.textSizeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.radioButtonTextSizeSmall -> textSize = TEXT_SIZE_SMALL
-
-                R.id.radioButtonTextSizeMedium -> textSize = TEXT_SIZE_MEDIUM
-
-                R.id.radioButtonTextSizeBig -> textSize = TEXT_SIZE_BIG
+                R.id.radioButtonTextSizeSmall -> textSize = TextSize.SMALL.name
+                R.id.radioButtonTextSizeMedium -> textSize = TextSize.MEDIUM.name
+                R.id.radioButtonTextSizeBig -> textSize = TextSize.BIG.name
             }
         }
-        binding.textColorButtons.setOnCheckedChangeListener { _, checkedId ->
+        binding.textColorRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.radioButtonTextColorGreen -> textColor =
-                    ContextCompat.getColor(applicationContext, R.color.green)
-
-                R.id.radioButtonTextColorBlack -> textColor =
-                    ContextCompat.getColor(applicationContext, R.color.black)
-
-                R.id.radioButtonTextColorRed -> textColor =
-                    ContextCompat.getColor(applicationContext, R.color.red)
+                R.id.radioButtonTextColorGreen -> textColor = TextColor.GREEN.name
+                R.id.radioButtonTextColorBlack -> textColor = TextColor.BLACK.name
+                R.id.radioButtonTextColorRed -> textColor = TextColor.RED.name
             }
         }
     }
 
     override fun onPause() {
+        sharedPreferences.edit().apply {
+            putString(
+                TEXT_SIZE,
+                textSize
+            )
+            putString(
+                TEXT_COLOR,
+                textColor
+            )
+        }.apply()
         super.onPause()
-        if (textSize != 0 || textColor != 0) {
-            sharedPreferences.edit().apply {
-                if (textSize != 0) {
-                    putInt(
-                        TEXT_SIZE,
-                        textSize
-                    )
-                }
-                if (textColor != 0) {
-                    putInt(
-                        TEXT_COLOR,
-                        textColor
-                    )
-                }
-            }.apply()
-        }
+    }
+
+    enum class TextSize {
+        SMALL,
+        MEDIUM,
+        BIG
+    }
+
+    enum class TextColor {
+        GREEN,
+        BLACK,
+        RED
     }
 }

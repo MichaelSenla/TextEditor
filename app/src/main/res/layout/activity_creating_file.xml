@@ -15,6 +15,7 @@
         android:id="@+id/viewInput"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="vertical"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_medium" />
 </FrameLayout>
