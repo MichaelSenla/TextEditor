@@ -17,6 +17,7 @@ class SettingsActivity : Activity() {
     private lateinit var sharedPreferences: SharedPreferences
     private var textSize = ""
     private var textColor = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
@@ -66,27 +67,23 @@ class SettingsActivity : Activity() {
 
     override fun onPause() {
         sharedPreferences.edit().apply {
-            putString(
-                TEXT_SIZE,
-                textSize
-            )
-            putString(
-                TEXT_COLOR,
-                textColor
-            )
+            putString(TEXT_SIZE, textSize)
+            putString(TEXT_COLOR, textColor)
         }.apply()
+
         super.onPause()
     }
 
-    enum class TextSize {
-        SMALL,
-        MEDIUM,
-        BIG
-    }
+}
 
-    enum class TextColor {
-        GREEN,
-        BLACK,
-        RED
-    }
+enum class TextSize {
+    SMALL,
+    MEDIUM,
+    BIG
+}
+
+enum class TextColor {
+    GREEN,
+    BLACK,
+    RED
 }

@@ -22,57 +22,55 @@ class FileActivity : Activity() {
         const val DEFAULT_TEXT_SIZE = ""
         const val DEFAULT_TEXT_COLOR = "000000"
         const val NEW_LINE = "\n"
+        const val NUMBER_ONE = 1
+        const val DOT = "."
     }
 
     private lateinit var binding: ActivityCreatingFileBinding
     private lateinit var fileOutputStream: FileOutputStream
     private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreatingFileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (intent.getBooleanExtra(EXTRA_CREATE_FILE, false)) {
+            fileOutputStream = openFileOutput(DATA_TXT, Context.MODE_PRIVATE)
+        }
         sharedPreferences =
             getSharedPreferences(MainActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE)
         if (!sharedPreferences.getBoolean(FILE_IS_CREATED_KEY, false)) {
-            changeToEditFileLayout(true)
+            configureButtonsVisibility(true)
         }
         if (!intent.getBooleanExtra(EXTRA_EDIT_FILE, true)) {
-            changeToEditFileLayout(false)
+            configureButtonsVisibility(false)
             setTextView()
-        } else if (intent.getBooleanExtra(EXTRA_EDIT_FILE, false)) {
-            changeToEditFileLayout(true)
+        } else {
+            configureButtonsVisibility(true)
             setEditText()
         }
     }
 
     override fun onPause() {
         super.onPause()
+
         if (intent.getBooleanExtra(EXTRA_CREATE_FILE, false)) {
-            createFile()
+            saveFile()
         }
         if (intent.getBooleanExtra(EXTRA_EDIT_FILE, false)) {
             fileOutputStream = openFileOutput(DATA_TXT, Context.MODE_PRIVATE)
-            fileOutputStream.write(
-                binding.userInput.text.toString()
-                    .toByteArray()
-            )
+            fileOutputStream.write(binding.userInput.text.toString().toByteArray())
             fileOutputStream.close()
         }
     }
 
-    private fun changeToEditFileLayout(flag: Boolean) {
-        if (flag) {
-            binding.userInput.isVisible = true
-            binding.viewInput.isVisible = false
-        } else {
-            binding.viewInput.isVisible = true
-            binding.userInput.isVisible = false
-        }
+    private fun configureButtonsVisibility(flag: Boolean) {
+        binding.userInput.isVisible = flag
+        binding.viewInput.isVisible = !flag
     }
 
-    private fun createFile() {
-        fileOutputStream = openFileOutput(DATA_TXT, Context.MODE_PRIVATE)
+    private fun saveFile() {
         fileOutputStream.write(binding.userInput.text.toString().toByteArray())
         fileOutputStream.close()
         sharedPreferences.edit().putBoolean(FILE_IS_CREATED_KEY, true).apply()
@@ -83,24 +81,16 @@ class FileActivity : Activity() {
         binding.viewInput.movementMethod = ScrollingMovementMethod()
         binding.viewInput.setTextSize(
             TypedValue.COMPLEX_UNIT_SP,
-            when (sharedPreferences.getString(
-                SettingsActivity.TEXT_SIZE,
-                DEFAULT_TEXT_SIZE
-            )) {
-                SettingsActivity.TextSize.SMALL.name -> resources.getDimension(R.dimen.text_size_small)
-                SettingsActivity.TextSize.MEDIUM.name -> resources.getDimension(R.dimen.text_size_medium)
-                SettingsActivity.TextSize.BIG.name -> resources.getDimension(R.dimen.text_size_big)
+            when (sharedPreferences.getString(SettingsActivity.TEXT_SIZE, DEFAULT_TEXT_SIZE)) {
+                TextSize.SMALL.name -> resources.getDimension(R.dimen.text_size_small)
+                TextSize.BIG.name -> resources.getDimension(R.dimen.text_size_big)
                 else -> resources.getDimension(R.dimen.text_size_medium)
             }
         )
         binding.viewInput.setTextColor(
-            when (sharedPreferences.getString(
-                SettingsActivity.TEXT_COLOR,
-                DEFAULT_TEXT_SIZE
-            )) {
-                SettingsActivity.TextColor.GREEN.name -> ContextCompat.getColor(this, R.color.green)
-                SettingsActivity.TextColor.BLACK.name -> ContextCompat.getColor(this, R.color.black)
-                SettingsActivity.TextColor.RED.name -> ContextCompat.getColor(this, R.color.red)
+            when (sharedPreferences.getString(SettingsActivity.TEXT_COLOR, DEFAULT_TEXT_SIZE)) {
+                TextColor.GREEN.name -> ContextCompat.getColor(this, R.color.green)
+                TextColor.RED.name -> ContextCompat.getColor(this, R.color.red)
                 else -> ContextCompat.getColor(this, R.color.black)
             }
         )
@@ -110,33 +100,16 @@ class FileActivity : Activity() {
         binding.userInput.setText(readLineByLine())
         binding.userInput.setTextSize(
             TypedValue.COMPLEX_UNIT_SP,
-            when (sharedPreferences.getString(
-                SettingsActivity.TEXT_SIZE,
-                DEFAULT_TEXT_SIZE
-            )) {
-                SettingsActivity.TextSize.SMALL.name -> resources.getDimension(R.dimen.text_size_small)
-                SettingsActivity.TextSize.MEDIUM.name -> resources.getDimension(R.dimen.text_size_medium)
-                SettingsActivity.TextSize.BIG.name -> resources.getDimension(R.dimen.text_size_big)
+            when (sharedPreferences.getString(SettingsActivity.TEXT_SIZE, DEFAULT_TEXT_SIZE)) {
+                TextSize.SMALL.name -> resources.getDimension(R.dimen.text_size_small)
+                TextSize.BIG.name -> resources.getDimension(R.dimen.text_size_big)
                 else -> resources.getDimension(R.dimen.text_size_medium)
             }
         )
         binding.userInput.setTextColor(
-            when (sharedPreferences.getString(
-                SettingsActivity.TEXT_COLOR,
-                DEFAULT_TEXT_COLOR
-            )) {
-                SettingsActivity.TextColor.GREEN.name -> ContextCompat.getColor(
-                    applicationContext,
-                    R.color.green
-                )
-                SettingsActivity.TextColor.BLACK.name -> ContextCompat.getColor(
-                    applicationContext,
-                    R.color.black
-                )
-                SettingsActivity.TextColor.RED.name -> ContextCompat.getColor(
-                    applicationContext,
-                    R.color.red
-                )
+            when (sharedPreferences.getString(SettingsActivity.TEXT_COLOR, DEFAULT_TEXT_COLOR)) {
+                TextColor.GREEN.name -> ContextCompat.getColor(applicationContext, R.color.green)
+                TextColor.RED.name -> ContextCompat.getColor(applicationContext, R.color.red)
                 else -> ContextCompat.getColor(applicationContext, R.color.black)
             }
         )
@@ -144,7 +117,7 @@ class FileActivity : Activity() {
 
     private fun readLineByLine(): String {
         val stringBuilder = StringBuilder()
-        File("$filesDir${File.separator}$DATA_TXT").useLines { lines ->
+        getFile().useLines { lines ->
             lines.forEach {
                 stringBuilder.apply {
                     append(it)
@@ -157,11 +130,17 @@ class FileActivity : Activity() {
 
     private fun readLinesWithIndexes(): String {
         val stringBuilder = StringBuilder()
-        File("$filesDir${File.separator}$DATA_TXT").useLines { lines ->
+        getFile().useLines { lines ->
             lines.forEachIndexed { index, value ->
-                stringBuilder.append("${index + 1}. $value \n")
+                stringBuilder.append("${index + NUMBER_ONE}")
+                stringBuilder.append(DOT)
+                stringBuilder.append(" $value ")
+                stringBuilder.append(NEW_LINE)
             }
         }
         return stringBuilder.toString()
     }
+
+    private fun getFile(): File = File("$filesDir${File.separator}$DATA_TXT")
+
 }

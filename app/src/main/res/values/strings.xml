@@ -12,6 +12,6 @@
     <string name="activity_settings_green_text_color_label">Зеленый</string>
     <string name="activity_settings_black_text_color_label">Черный</string>
     <string name="activity_settings_red_text_color_label">Красный</string>
-    <string name="activity_settings_choose_text_size_label">Выберите размер текста, пожалуйста:</string>
-    <string name="activity_settings_choose_text_color_label">Выберите цвет текста, пожалуйста:</string>
+    <string name="activity_settings_choose_text_size_label">Размер текста:</string>
+    <string name="activity_settings_choose_text_color_label">Цвет текста:</string>
 </resources>

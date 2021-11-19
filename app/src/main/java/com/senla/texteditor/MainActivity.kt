@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
         setButtonsListeners()
-        if (File("data.txt").exists()) {
+        if (File(FileActivity.DATA_TXT).exists()) {
             configureButtonsVisibility(flag = true)
         } else {
             configureButtonsVisibility(flag = false)
@@ -44,15 +44,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun configureButtonsVisibility(flag: Boolean) {
-        if (flag) {
-            binding.createFileButton.isVisible = false
-            binding.viewFileButton.isVisible = true
-            binding.editFileButton.isVisible = true
-        } else {
-            binding.createFileButton.isVisible = true
-            binding.viewFileButton.isVisible = false
-            binding.editFileButton.isVisible = false
-        }
+        binding.createFileButton.isVisible = !flag
+        binding.viewFileButton.isVisible = flag
+        binding.editFileButton.isVisible = flag
     }
 
     private fun setButtonsListeners() {
