@@ -12,13 +12,11 @@ import com.senla.texteditor.MainActivity.Companion.EXTRA_CREATE_FILE
 import com.senla.texteditor.MainActivity.Companion.EXTRA_EDIT_FILE
 import com.senla.texteditor.databinding.ActivityCreatingFileBinding
 import java.io.File
-import java.io.FileOutputStream
 
 class FileActivity : Activity() {
 
     companion object {
         const val DATA_TXT = "data.txt"
-        const val FILE_IS_CREATED_KEY = "FILE_IS_CREATED_KEY"
         const val DEFAULT_TEXT_SIZE = ""
         const val DEFAULT_TEXT_COLOR = "000000"
         const val NEW_LINE = "\n"
@@ -27,7 +25,7 @@ class FileActivity : Activity() {
     }
 
     private lateinit var binding: ActivityCreatingFileBinding
-    private lateinit var fileOutputStream: FileOutputStream
+    private lateinit var file: File
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,20 +33,18 @@ class FileActivity : Activity() {
         binding = ActivityCreatingFileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (intent.getBooleanExtra(EXTRA_CREATE_FILE, false)) {
-            fileOutputStream = openFileOutput(DATA_TXT, Context.MODE_PRIVATE)
-        }
         sharedPreferences =
             getSharedPreferences(MainActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE)
-        if (!sharedPreferences.getBoolean(FILE_IS_CREATED_KEY, false)) {
-            configureButtonsVisibility(true)
+        if (intent.getBooleanExtra(EXTRA_CREATE_FILE, false)) {
+            file = getFile()
+            return
         }
-        if (!intent.getBooleanExtra(EXTRA_EDIT_FILE, true)) {
-            configureButtonsVisibility(false)
-            setTextView()
-        } else {
+        if (intent.getBooleanExtra(EXTRA_EDIT_FILE, true)) {
             configureButtonsVisibility(true)
             setEditText()
+        } else {
+            configureButtonsVisibility(false)
+            setTextView()
         }
     }
 
@@ -59,9 +55,8 @@ class FileActivity : Activity() {
             saveFile()
         }
         if (intent.getBooleanExtra(EXTRA_EDIT_FILE, false)) {
-            fileOutputStream = openFileOutput(DATA_TXT, Context.MODE_PRIVATE)
-            fileOutputStream.write(binding.userInput.text.toString().toByteArray())
-            fileOutputStream.close()
+            file = getFile()
+            file.writeText(binding.userInput.text.toString())
         }
     }
 
@@ -71,9 +66,8 @@ class FileActivity : Activity() {
     }
 
     private fun saveFile() {
-        fileOutputStream.write(binding.userInput.text.toString().toByteArray())
-        fileOutputStream.close()
-        sharedPreferences.edit().putBoolean(FILE_IS_CREATED_KEY, true).apply()
+        file.writeText(binding.userInput.text.toString())
+        file.createNewFile()
     }
 
     private fun setTextView() {
@@ -132,10 +126,12 @@ class FileActivity : Activity() {
         val stringBuilder = StringBuilder()
         getFile().useLines { lines ->
             lines.forEachIndexed { index, value ->
-                stringBuilder.append("${index + NUMBER_ONE}")
-                stringBuilder.append(DOT)
-                stringBuilder.append(" $value ")
-                stringBuilder.append(NEW_LINE)
+                with(stringBuilder) {
+                    append("${index + NUMBER_ONE}")
+                    append(DOT)
+                    append(" $value ")
+                    append(NEW_LINE)
+                }
             }
         }
         return stringBuilder.toString()

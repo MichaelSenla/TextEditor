@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.senla.texteditor.FileActivity.Companion.DATA_TXT
 import com.senla.texteditor.databinding.ActivityMainBinding
 import java.io.File
 
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
         setButtonsListeners()
-        if (File(FileActivity.DATA_TXT).exists()) {
+        if (File("$filesDir${File.separator}$DATA_TXT").exists()) {
             configureButtonsVisibility(flag = true)
         } else {
             configureButtonsVisibility(flag = false)
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (sharedPreferences.getBoolean(FileActivity.FILE_IS_CREATED_KEY, false)) {
+        if (File("$filesDir${File.separator}$DATA_TXT").exists()) {
             configureButtonsVisibility(flag = true)
         } else {
             configureButtonsVisibility(flag = false)
