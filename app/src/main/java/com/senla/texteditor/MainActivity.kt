@@ -42,28 +42,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setButtonsListeners() {
-        with(binding.createFileButton) {
+        binding.createFileButton.apply {
             setOnClickListener {
-                startActivity(with(Intent(this@MainActivity, FileActivity::class.java)) {
+                startActivity((Intent(this@MainActivity, FileActivity::class.java)).apply {
                     putExtra(EXTRA_CREATE_FILE, true)
                 })
             }
         }
-        with(binding.settingsButton) {
+        binding.settingsButton.apply {
             setOnClickListener {
                 startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
             }
         }
-        with(binding.viewFileButton) {
+        binding.viewFileButton.apply {
             setOnClickListener {
-                startActivity(with(Intent(this@MainActivity, FileActivity::class.java)) {
+                startActivity((Intent(this@MainActivity, FileActivity::class.java)).apply {
                     putExtra(EXTRA_EDIT_FILE, false)
                 })
             }
         }
-        with(binding.editFileButton) {
+        binding.editFileButton.apply {
             setOnClickListener {
-                startActivity(with(Intent(this@MainActivity, FileActivity::class.java)) {
+                startActivity((Intent(this@MainActivity, FileActivity::class.java)).apply {
                     putExtra(EXTRA_EDIT_FILE, true)
                 })
             }

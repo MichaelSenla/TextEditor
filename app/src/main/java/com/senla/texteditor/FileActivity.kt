@@ -73,7 +73,7 @@ class FileActivity : Activity() {
     }
 
     private fun setTextView() {
-        with(binding.viewInput) {
+        binding.viewInput.apply {
             text = readLinesWithIndexes()
             movementMethod = ScrollingMovementMethod()
         }
@@ -125,7 +125,7 @@ class FileActivity : Activity() {
         val stringBuilder = StringBuilder()
         file.useLines { lines ->
             lines.forEachIndexed { index, value ->
-                with(stringBuilder) {
+                stringBuilder.apply {
                     append("${index + NUMBER_ONE}")
                     append(DOT)
                     append(" $value ")
