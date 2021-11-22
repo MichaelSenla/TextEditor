@@ -68,6 +68,4 @@ class SettingsActivity : Activity() {
 
         super.onPause()
     }
-
 }
-

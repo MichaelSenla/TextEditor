@@ -38,18 +38,18 @@ class FileActivity : Activity() {
         sharedPreferences =
             getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
         file = File("$filesDir${File.separator}$DATA_TXT")
+
         if (intent.getBooleanExtra(EXTRA_CREATE_FILE, false)) {
             file.createNewFile()
             return
         }
+
         if (intent.getBooleanExtra(EXTRA_EDIT_FILE, true)) {
             configureButtonsVisibility(true)
             setEditText()
-            return
         } else {
             configureButtonsVisibility(false)
             setTextView()
-            return
         }
     }
 
@@ -64,8 +64,8 @@ class FileActivity : Activity() {
     }
 
     private fun configureButtonsVisibility(flag: Boolean) {
-        binding.userInput.isVisible = flag
-        binding.viewInput.isVisible = !flag
+        binding.userInput.apply { isVisible = flag }
+        binding.viewInput.apply { isVisible = !flag }
     }
 
     private fun saveFile() {
@@ -73,8 +73,10 @@ class FileActivity : Activity() {
     }
 
     private fun setTextView() {
-        binding.viewInput.text = readLinesWithIndexes()
-        binding.viewInput.movementMethod = ScrollingMovementMethod()
+        with(binding.viewInput) {
+            text = readLinesWithIndexes()
+            movementMethod = ScrollingMovementMethod()
+        }
         setTextSize(binding.viewInput)
         setTextColor(binding.viewInput)
     }
@@ -133,5 +135,4 @@ class FileActivity : Activity() {
         }
         return stringBuilder.toString()
     }
-
 }
