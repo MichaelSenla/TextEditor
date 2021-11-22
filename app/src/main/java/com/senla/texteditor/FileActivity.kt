@@ -57,15 +57,17 @@ class FileActivity : Activity() {
         super.onPause()
 
         if (intent.getBooleanExtra(EXTRA_CREATE_FILE, false)
-            || intent.getBooleanExtra(EXTRA_EDIT_FILE, false))
-            {
+            || intent.getBooleanExtra(EXTRA_EDIT_FILE, false)
+        ) {
             saveFile()
         }
     }
 
     private fun configureButtonsVisibility(flag: Boolean) {
-        binding.userInput.apply { isVisible = flag }
-        binding.viewInput.apply { isVisible = !flag }
+        binding.apply {
+            userInput.isVisible = flag
+            viewInput.isVisible = !flag
+        }
     }
 
     private fun saveFile() {

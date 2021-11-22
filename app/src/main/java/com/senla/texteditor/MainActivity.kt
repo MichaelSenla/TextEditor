@@ -36,36 +36,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun configureButtonsVisibility(flag: Boolean) {
-        binding.createFileButton.apply { isVisible = !flag }
-        binding.viewFileButton.apply { isVisible = flag }
-        binding.editFileButton.apply { isVisible = flag }
+        binding.apply {
+            createFileButton.isVisible = !flag
+            viewFileButton.isVisible = flag
+            editFileButton.isVisible = flag
+        }
     }
 
     private fun setButtonsListeners() {
-        binding.createFileButton.apply {
-            setOnClickListener {
+        binding.apply {
+            createFileButton.setOnClickListener {
                 startActivity((Intent(this@MainActivity, FileActivity::class.java)).apply {
                     putExtra(EXTRA_CREATE_FILE, true)
                 })
             }
-        }
-        binding.settingsButton.apply {
-            setOnClickListener {
-                startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+
+            settingsButton.apply {
+                setOnClickListener {
+                    startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                }
             }
-        }
-        binding.viewFileButton.apply {
-            setOnClickListener {
-                startActivity((Intent(this@MainActivity, FileActivity::class.java)).apply {
-                    putExtra(EXTRA_EDIT_FILE, false)
-                })
+            viewFileButton.apply {
+                setOnClickListener {
+                    startActivity((Intent(this@MainActivity, FileActivity::class.java)).apply {
+                        putExtra(EXTRA_EDIT_FILE, false)
+                    })
+                }
             }
-        }
-        binding.editFileButton.apply {
-            setOnClickListener {
-                startActivity((Intent(this@MainActivity, FileActivity::class.java)).apply {
-                    putExtra(EXTRA_EDIT_FILE, true)
-                })
+            editFileButton.apply {
+                setOnClickListener {
+                    startActivity((Intent(this@MainActivity, FileActivity::class.java)).apply {
+                        putExtra(EXTRA_EDIT_FILE, true)
+                    })
+                }
             }
         }
     }
