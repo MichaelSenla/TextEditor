@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">TextEditor</string>
+
+    <string name="activity_main_create_file_label">Создать файл</string>
+    <string name="activity_main_settings_label">Настройки</string>
+    <string name="activity_main_check_file_label">Просмотреть файл</string>
+    <string name="activity_main_edit_file_label">Редактировать файл</string>
+
+    <string name="activity_settings_small_text_size_label">Маленький</string>
+    <string name="activity_settings_medium_text_size_label">Средний</string>
+    <string name="activity_settings_big_text_size_label">Большой</string>
+    <string name="activity_settings_green_text_color_label">Зеленый</string>
+    <string name="activity_settings_black_text_color_label">Черный</string>
+    <string name="activity_settings_red_text_color_label">Красный</string>
+    <string name="activity_settings_choose_text_size_label">Размер текста:</string>
+    <string name="activity_settings_choose_text_color_label">Цвет текста:</string>
 </resources>
